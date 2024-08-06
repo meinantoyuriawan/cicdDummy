@@ -19,16 +19,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: container naming
-        run: |
-          release_version=$(echo "${{ github.ref }}" | sed 's/refs\/heads\/.*\///')
-          echo "Building release version $release_version"
-          echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
-          shell: bash
+      # - name: container naming
+      #   run: |
+      #     release_version=$(echo "${{ github.ref }}" | sed 's/refs\/heads\/.*\///')
+      #     echo "Building release version $release_version"
+      #     echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
+      #     shell: bash
 
       - name: Build the image
         env:
           DOCKER_IMAGE_NAME: cicd/test
+          RELEASE_VERSION: 1.0
         run: |
           # build the docker container
           docker build -t $DOCKER_IMAGE_NAME:$RELEASE_VERSION .
