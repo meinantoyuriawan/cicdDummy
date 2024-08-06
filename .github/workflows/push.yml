@@ -30,4 +30,4 @@ jobs:
           DOCKER_IMAGE_NAME: cicd/test
         run: |
           # build the docker container
-          docker build -t $DOCKER_IMAGE_NAME:$RELEASE_VERSION
+          docker build -t $DOCKER_IMAGE_NAME:$RELEASE_VERSION .
