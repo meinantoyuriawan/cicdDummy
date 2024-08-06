@@ -1,0 +1,33 @@
+name: Build Docker image
+
+on:
+  # Triggers the workflow on push or pull request events 
+  # on the specified branch
+    push:
+      branches: [main]
+    pull_request:
+      branches: [main]
+
+jobs:
+  build_image:
+    name: Build Image
+    runs-on: ubuntu-latest
+
+      # Steps represent a sequence of tasks that
+      # will be executed as part of the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: container naming
+        run: |
+          release_version=$(echo "${{ github.ref }}" | sed 's/refs\/heads\/.*\///')
+          echo "Building release version $release_version"
+          echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
+
+      - name: Build the image
+        env:
+          DOCKER_IMAGE_NAME: cicd/test
+        run: |
+          # build the docker container
+          docker build -t $DOCKER_IMAGE_NAME:$RELEASE_VERSION
